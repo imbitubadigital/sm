@@ -8,7 +8,7 @@ export default function Home() {
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
 
 
-     <Button onClick={getAllOrders}>pk</Button>
+     <Button onClick={getAllOrders}>Buscar</Button>
      </main>
     </div>
   );
