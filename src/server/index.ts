@@ -1,12 +1,12 @@
 'use server';
 
+import { PaginationOrders, SearchPaginate } from "@/@types/order";
 import { db } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export async function getAllOrders() {
-    const search = ''
-    const limit = 1
-    const page = 2
+
+
+export async function getAllOrders({search, limit, page}: SearchPaginate) {
 
     const where: Prisma.order_surpresa_musicalWhereInput = {
         OR: [
@@ -14,7 +14,7 @@ export async function getAllOrders() {
                 id: Number(search),
             },
             {
-                whatsapp:  {
+                remoteJid:  {
                     contains: search,
                     mode: 'insensitive'
                 }
@@ -36,7 +36,7 @@ export async function getAllOrders() {
             limit,
             totalElements: count,
             totalPages: Math.ceil(count / limit),
-        }
+        } as PaginationOrders
 
 
         return data

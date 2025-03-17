@@ -18,65 +18,68 @@ const columns = [
 		accessorKey: 'user',
 	},
 	{
-		id: 'remoteJid',
-		header: 'remoteJid',
-		accessorKey: 'remoteJid',
-	},
-	{
 		id: 'whatsapp',
-		header: 'whatsapp',
+		header: 'Whatsapp',
 		accessorKey: 'whatsapp',
 	},
 	{
-		id: 'updated_at',
-		header: 'updated_at',
-		accessorKey: 'updated_at',
+		id: 'honoree_name',
+		header: 'Homenageado(a)',
+		accessorKey: 'honoree_name',
 	},
 	{
 		id: 'honoree_age',
-		header: 'honoree_age',
+		header: 'Idade',
 		accessorKey: 'honoree_age',
 	},
 	{
 		id: 'kinship',
-		header: 'kinship',
+		header: 'Parentesco',
 		accessorKey: 'kinship',
 	},
 	{
 		id: 'tribute_reason',
-		header: 'tribute_reason',
+		header: 'Motivo',
 		accessorKey: 'tribute_reason',
 	},
 	{
+		id: 'music_style',
+		header: 'Estilo',
+		accessorKey: 'music_style',
+	},
+	{
 		id: 'declaration',
-		header: 'declaration',
+		header: 'Declaração',
 		accessorKey: 'declaration',
 	},
 	{
-		id: 'push_name',
-		header: 'push_name',
-		accessorKey: 'push_name',
+		id: 'other_declaration',
+		header: 'Outras palavras',
+		accessorKey: 'other_declaration',
+	},
+
+	{
+		id: 'updated_at',
+		header: 'Atualizado em',
+		accessorKey: 'updated_at',
 	},
 	{
-		id: 'honoree_name',
-		header: 'honoree_name',
-		accessorKey: 'honoree_name',
+		id: 'created_at',
+		header: 'Cadastro em',
+		accessorKey: 'created_at',
 	},
+
+
+
+
+
 	{
 		id: 'honoree_feature',
 		header: 'honoree_feature',
 		accessorKey: 'honoree_feature',
 	},
-	{
-		id: 'music_style',
-		header: 'music_style',
-		accessorKey: 'music_style',
-	},
-	{
-		id: 'other_declaration',
-		header: 'other_declaration',
-		accessorKey: 'other_declaration',
-	},
+
+
 ]
  export function Orders() {
      return <div className="p-10">

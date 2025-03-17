@@ -2,18 +2,17 @@
 import {
 	Table,
 	TableBody,
-	TableCaption,
 	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
-// import {
-// 	type ColumnDef,
-// 	flexRender,
-// 	getCoreRowModel,
-// 	useReactTable,
-// } from '@tanstack/react-table'
+import {
+
+	flexRender,
+	getCoreRowModel,
+	useReactTable,
+} from '@tanstack/react-table'
 
 import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
@@ -31,17 +30,21 @@ import {
 	SelectValue,
 } from '@/components/ui/select'
 
-import { ArrowUp, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowUp} from 'lucide-react'
 
-import { useQueryState } from 'nuqs'
-//import qs from 'qs'
-import { type ChangeEvent, useCallback, useMemo } from 'react'
-//import useSWR from 'swr'
+import { parseAsInteger, useQueryState } from 'nuqs'
 
+import { type ChangeEvent, useMemo } from 'react'
+
+import {format} from 'date-fns'
 import { useDebounce } from '@/utils/debounce'
 import { HeaderColumnDataTableProps } from '@/@types/header-column-data-table';
-import { Button } from '@/components/ui/button';
+
 import { CustomPaginationNext } from '../custom-pagination-next';
+import { useQuery } from '@tanstack/react-query';
+import { getAllOrders } from '@/server';
+
+import { CustomPaginationPrevious } from '../custom-pagination-previous';
 
 interface DataTableProps {
 	//url: string
@@ -51,24 +54,8 @@ interface DataTableProps {
 	defaultSortDirection?: 'asc' | 'desc'
 }
 
-export function CustomPaginationPrevious({
-	onClick,
-	children,
-	disabled = false,
-}: { onClick?: () => void; children: React.ReactNode; disabled?: boolean }) {
-	return (
-		<Button
-			variant="outline"
-			size="sm"
-			className="gap-1 pl-2.5"
-			onClick={onClick}
-			disabled={disabled}
-		>
-			<ChevronLeft className="h-4 w-4" />
-			{children}
-		</Button>
-	)
-}
+
+
 
 
 
@@ -78,14 +65,11 @@ export function DynamicDataTable({
 	defaultSortField = '',
 	defaultSortDirection = 'asc',
 }: DataTableProps) {
-	// const fetcher = useCallback(
-	// 	(url: string) => fetch(url).then((res) => res.json()),
-	// 	[],
-	// )
 
-	const [page, setPage] = useQueryState('page', { defaultValue: '1' })
-	const [limit, setLimit] = useQueryState('limit', { defaultValue: '10' })
-	const [type, setType] = useQueryState('type', { defaultValue: '' })
+	const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
+	const [limit, setLimit] = useQueryState('limit', parseAsInteger.withDefault(1))
+
+
 	const [q, setQ] = useQueryState('q', { defaultValue: '' })
 
 	const [sortField, setSortField] = useQueryState('sortField', {
@@ -94,74 +78,72 @@ export function DynamicDataTable({
 	const [sortDirection, setSortDirection] = useQueryState('sortDirection', {
 		defaultValue: defaultSortDirection || '',
 	})
-	const isLoading = false
 
-	// const { data, isLoading } = useSWR(
-	// 	`${url}?${qs.stringify({ page, sortField, sortDirection, limit, type, q })}`,
-	// 	fetcher,
-	// )
 
-	// const { items, metadata } = useMemo(() => {
-	// 	return {
-	// 		items: data?.items || [],
-	// 		metadata: data?.metadata,
-	// 	}
-	// }, [data])
+	const {data, isLoading} = useQuery({
+		queryKey: ['todos', page, sortField, sortDirection, limit, q],
+		queryFn: async () => await getAllOrders({search: q, limit, page}),
+	})
 
-	// const pagesToRender = useMemo(() => {
-	// 	if (!metadata) return []
+console.log('cccc', data)
 
-	// 	const maxPagesToRender = 5
 
-	// 	const pages = []
-	// 	let startIndex = metadata.page - 2
-	// 	let endIndex = metadata.page + 2
+	const pagesToRender = useMemo(() => {
+		if (!data?.content) return []
 
-	// 	if (metadata.totalPages <= maxPagesToRender) {
-	// 		startIndex = 1
-	// 		endIndex = metadata.totalPages
-	// 	} else {
-	// 		if (startIndex < 1) {
-	// 			startIndex = 1
-	// 			endIndex = maxPagesToRender
-	// 		}
+		const maxPagesToRender = 5
 
-	// 		if (endIndex > metadata.totalPages) {
-	// 			startIndex = metadata.totalPages - maxPagesToRender + 1
-	// 			endIndex = metadata.totalPages
-	// 		}
-	// 	}
+		const pages = []
+		let startIndex = data.page - 2
+		let endIndex = data.page + 2
 
-	// 	for (let i = startIndex; i <= endIndex; i++) {
-	// 		pages.push(i)
-	// 	}
+		if (data.totalPages <= maxPagesToRender) {
+			startIndex = 1
+			endIndex = data.totalPages
+		} else {
+			if (startIndex < 1) {
+				startIndex = 1
+				endIndex = maxPagesToRender
+			}
 
-	// 	return pages
-	// }, [metadata])
+			if (endIndex > data.totalPages) {
+				startIndex = data.totalPages - maxPagesToRender + 1
+				endIndex = data.totalPages
+			}
+		}
 
-	// const table = useReactTable({
-	// 	data: items,
-	// 	columns,
-	// 	getCoreRowModel: getCoreRowModel(),
-	// })
+		for (let i = startIndex; i <= endIndex; i++) {
+			pages.push(i)
+		}
+
+		return pages
+	}, [data])
+
+
 
 	function handleUpdateSort(field: string) {
-		setPage('1')
+		setPage(1)
 		setSortField(field)
 		setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
 	}
 	function handleUpdateLimit(limit: string) {
-		setPage('1')
-		setLimit(limit)
+		setPage(1)
+		setLimit(Number(limit))
 	}
-	function handleUpdateType(type: string) {
-		setPage('1')
-		setType(type === 'all' ? '' : type)
-	}
+
+
 	function handleChangeSearch(e: ChangeEvent<HTMLInputElement>) {
-		setPage('1')
+		setPage(1)
 		setQ(e.target.value)
 	}
+
+	const table = useReactTable({
+		data: data?.content || [],
+		columns,
+		getCoreRowModel: getCoreRowModel(),
+	})
+
+
 
 	return (
 		<div className="grid gap-2">
@@ -173,26 +155,15 @@ export function DynamicDataTable({
 						defaultValue={q}
 						onChange={useDebounce(handleChangeSearch, 600)}
 					/>
-					<Select defaultValue={type || 'all'} onValueChange={handleUpdateType}>
-						<SelectTrigger>
-							<SelectValue placeholder="Select type" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="all">TODOS</SelectItem>
-							<SelectItem value="CREDIT">Crédito</SelectItem>
-							<SelectItem value="DEBIT">Débito</SelectItem>
-							<SelectItem value="TRANSFER">Transferência</SelectItem>
-							<SelectItem value="PAYMENT">Pagamento</SelectItem>
-						</SelectContent>
-					</Select>
+
 				</div>
 				<div>
-					<Select defaultValue={limit} onValueChange={handleUpdateLimit}>
+					<Select defaultValue={String(limit)} onValueChange={handleUpdateLimit}>
 						<SelectTrigger>
 							<SelectValue placeholder="Select limit" />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="10">10 Rows</SelectItem>
+							<SelectItem value="1">10 Rows</SelectItem>
 							<SelectItem value="20">20 Rows</SelectItem>
 							<SelectItem value="50">50 Rows</SelectItem>
 							<SelectItem value="100">100 Rows</SelectItem>
@@ -202,40 +173,65 @@ export function DynamicDataTable({
 			</div>
 			<div className="rounded-md border">
 				<Table>
-				<TableCaption>A list of your recent invoices.</TableCaption>
 
-					<TableHeader>
-
-							<TableRow>
-								{columns.map((header) => {
-									//const isSortable = sortColumns.includes(header.id)
-									//const isSorted = sortField === header.id
+				<TableHeader>
+						{table.getHeaderGroups().map((headerGroup) => (
+							<TableRow key={headerGroup.id}>
+								{headerGroup.headers.map((header) => {
+									const isSortable = sortColumns.includes(header.id)
+									const isSorted = sortField === header.id
 									return (
 										<TableHead key={header.id}>
-											{header.header}
+											<div
+												className={cn('flex items-center gap-0.5', {
+													'cursor-pointer hover:text-foreground': isSortable,
+													'text-foreground': isSorted,
+												})}
+												onClick={
+													isSortable
+														? () => handleUpdateSort(header.id)
+														: undefined
+												}
+												onKeyDown={() => {}}
+											>
+												{header.isPlaceholder
+													? null
+													: flexRender(
+															header.column.columnDef.header,
+															header.getContext(),
+														)}
+												{isSorted && (
+													<ArrowUp
+														className={cn('ml-2 h-4 - w-4', {
+															'rotate-180': sortDirection === 'desc',
+														})}
+													/>
+												)}
+											</div>
 										</TableHead>
 									)
 								})}
 							</TableRow>
-
+						))}
 					</TableHeader>
-					{/* <TableBody>
+					<TableBody>
 						{!isLoading &&
 							table.getRowModel().rows?.length > 0 &&
 							table.getRowModel().rows.map((row) => (
-								<TableRow
-									key={row.id}
-									data-state={row.getIsSelected() && 'selected'}
-								>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext(),
-											)}
-										</TableCell>
-									))}
-								</TableRow>
+								<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+        {row.getVisibleCells().map((cell) => {
+
+           	const cellValue = cell.getValue();
+			const formattedDate = cellValue !== undefined && (cell.column.columnDef.id === 'updated_at' || cell.column.columnDef.id === 'created_at') ? format(new Date(cellValue as Date), 'dd/MM/yyyy HH:mm:ss') : '';
+
+          return (
+            <TableCell key={cell.id}>
+
+               {!!formattedDate ? formattedDate : flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </TableCell>
+          );
+        })}
+      </TableRow>
 							))}
 						{!isLoading && table.getRowModel().rows?.length <= 0 && (
 							<TableRow>
@@ -257,91 +253,66 @@ export function DynamicDataTable({
 								</TableCell>
 							</TableRow>
 						)}
-					</TableBody> */}
+					</TableBody>
 				</Table>
 			</div>
-			{!isLoading && (
+			{!isLoading && data && data?.content.length > 0 && (
 				<footer className="w-full flex justify-between items-center gap-10">
-					{/* <p className="flex-1 text-sm font-bold">
-						Página {metadata.page} de {metadata.totalPages} com {metadata.total}{' '}
+					 <p className="flex-1 text-sm font-bold">
+						Página {data?.page} de {data?.totalPages} com {data?.totalElements}{' '}
 						resultados
-					</p> */}
+					</p>
 					<Pagination className="flex-1 justify-end">
 						<PaginationContent>
 							<PaginationItem>
-								{/* <PaginationPrevious href="#" onClick={() => setPage('1')}>
-									Primeiro
-								</PaginationPrevious> */}
-								{/* <CustomPaginationPrevious
-									onClick={() => setPage('1')}
-									disabled={!metadata.hasPreviousPage}
+								 <CustomPaginationPrevious
+									onClick={() => setPage(1)}
+									disabled={data?.page === 1}
 								>
 									Primeiro
-								</CustomPaginationPrevious> */}
+								</CustomPaginationPrevious>
 							</PaginationItem>
 							<PaginationItem>
-								{/* <PaginationPrevious
-									onClick={() => setPage(String(Number(page) - 1))}
+								<CustomPaginationPrevious
+									onClick={() => setPage(data?.page - 1)}
+									disabled={data?.page === 1}
 								>
 									Anterior
-								</PaginationPrevious> */}
-
-								{/* <CustomPaginationPrevious
-									onClick={() => setPage(String(Number(page) - 1))}
-									disabled={!metadata.hasPreviousPage}
-								>
-									Anterior
-								</CustomPaginationPrevious> */}
+								</CustomPaginationPrevious>
 							</PaginationItem>
-							{/* <PaginationItem>
-								<PaginationLink
-									className={cn({
-										underline: false,
-									})}
-								>
-									1
-								</PaginationLink>
-							</PaginationItem> */}
 
-							{/* {pagesToRender.map((page) => (
+
+							{pagesToRender.map((page) => (
 								<PaginationItem key={page}>
 									<PaginationLink
-										onClick={() => setPage(String(page))}
+										onClick={() => setPage(Number(page))}
 										className={cn({
-											underline: page === metadata.page,
-											'cursor-pointer': page !== metadata.page,
+											underline: page === data.page,
+											'cursor-pointer': page !== data.page,
 										})}
 									>
 										{page}
 									</PaginationLink>
 								</PaginationItem>
-							))} */}
+							))}
 
 							<PaginationItem>
-								{/* <PaginationNext
-									onClick={() => setPage(String(Number(page) + 1))}
+
+								<CustomPaginationNext
+									onClick={() => setPage(data.page + 1)}
+									disabled={data.page === data.totalPages}
 								>
 									Próxima
-								</PaginationNext> */}
-								{/* <CustomPaginationNext
-									onClick={() => setPage(String(Number(page) + 1))}
-									disabled={!metadata.hasNextPage}
-								>
-									Próxima
-								</CustomPaginationNext> */}
+								</CustomPaginationNext>
 							</PaginationItem>
 							<PaginationItem>
-								{/* <PaginationNext
-									onClick={() => setPage(String(metadata.totalPages))}
+
+								 <CustomPaginationNext
+									onClick={() => setPage(data.totalPages)}
+									disabled={data.page === data.totalPages}
 								>
 									Última
-								</PaginationNext> */}
-								{/* <CustomPaginationNext
-									onClick={() => setPage(String(metadata.totalPages))}
-									disabled={!metadata.hasNextPage}
-								>
-									Última
-								</CustomPaginationNext> */}
+								</CustomPaginationNext>
 							</PaginationItem>
 						</PaginationContent>
 					</Pagination>
