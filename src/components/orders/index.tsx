@@ -47,16 +47,16 @@ const columns = [
 		header: 'Estilo',
 		accessorKey: 'music_style',
 	},
-	{
-		id: 'declaration',
-		header: 'Declaração',
-		accessorKey: 'declaration',
-	},
-	{
-		id: 'other_declaration',
-		header: 'Outras palavras',
-		accessorKey: 'other_declaration',
-	},
+	// {
+	// 	id: 'declaration',
+	// 	header: 'Declaração',
+	// 	accessorKey: 'declaration',
+	// },
+	// {
+	// 	id: 'other_declaration',
+	// 	header: 'Outras palavras',
+	// 	accessorKey: 'other_declaration',
+	// },
 
 	{
 		id: 'updated_at',
@@ -68,15 +68,10 @@ const columns = [
 		header: 'Cadastro em',
 		accessorKey: 'created_at',
 	},
-
-
-
-
-
 	{
-		id: 'honoree_feature',
-		header: 'honoree_feature',
-		accessorKey: 'honoree_feature',
+		id: 'action',
+		header: 'Ação',
+		accessorKey: 'action',
 	},
 
 

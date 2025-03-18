@@ -146,7 +146,8 @@ console.log('cccc', data)
 
 
 	return (
-		<div className="grid gap-2">
+		<div className='w-full'>
+
 			<div className="flex gap-2 justify-between">
 				<div className="flex gap-2">
 					<Input
@@ -318,6 +319,7 @@ console.log('cccc', data)
 					</Pagination>
 				</footer>
 			)}
+
 		</div>
 	)
 }
