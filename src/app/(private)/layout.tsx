@@ -1,4 +1,4 @@
-import { logout } from '@/server'
+import { logout } from '@/server/signin'
 
 export default function LayoutDashboard({
 	children,

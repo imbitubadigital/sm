@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import {
 	Table,
 	TableBody,
@@ -8,13 +8,12 @@ import {
 	TableRow,
 } from '@/components/ui/table'
 import {
-
+	type Cell,
 	flexRender,
 	getCoreRowModel,
 	useReactTable,
 } from '@tanstack/react-table'
 
-import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import {
 	Pagination,
@@ -29,22 +28,25 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 
-import { ArrowUp} from 'lucide-react'
+import { ArrowUp, Edit, LoaderCircleIcon } from 'lucide-react'
 
 import { parseAsInteger, useQueryState } from 'nuqs'
 
-import { type ChangeEvent, useMemo } from 'react'
+import { type ChangeEvent, useMemo, useState } from 'react'
 
-import {format} from 'date-fns'
+import type { HeaderColumnDataTableProps } from '@/@types/header-column-data-table'
 import { useDebounce } from '@/utils/debounce'
-import { HeaderColumnDataTableProps } from '@/@types/header-column-data-table';
+import { format } from 'date-fns'
 
-import { CustomPaginationNext } from '../custom-pagination-next';
-import { useQuery } from '@tanstack/react-query';
-import { getAllOrders } from '@/server';
+import { useQuery } from '@tanstack/react-query'
+import { CustomPaginationNext } from '../custom-pagination-next'
 
-import { CustomPaginationPrevious } from '../custom-pagination-previous';
+import type { OrdersProps } from '@/@types/order'
+import { StatusOrderModal } from '@/components/modal/status-order-modal'
+import { getAllOrders } from '@/server/order'
+import { CustomPaginationPrevious } from '../custom-pagination-previous'
 
 interface DataTableProps {
 	//url: string
@@ -54,21 +56,19 @@ interface DataTableProps {
 	defaultSortDirection?: 'asc' | 'desc'
 }
 
-
-
-
-
-
 export function DynamicDataTable({
 	columns,
 	sortColumns = [],
 	defaultSortField = '',
 	defaultSortDirection = 'asc',
 }: DataTableProps) {
-
+	const [show, setShow] = useState(false)
+	const [cell, setCell] = useState<Cell<OrdersProps, unknown> | null>(null)
 	const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
-	const [limit, setLimit] = useQueryState('limit', parseAsInteger.withDefault(1))
-
+	const [limit, setLimit] = useQueryState(
+		'limit',
+		parseAsInteger.withDefault(1),
+	)
 
 	const [q, setQ] = useQueryState('q', { defaultValue: '' })
 
@@ -78,15 +78,12 @@ export function DynamicDataTable({
 	const [sortDirection, setSortDirection] = useQueryState('sortDirection', {
 		defaultValue: defaultSortDirection || '',
 	})
+	const KEY_QUERY = ['todos', page, sortField, sortDirection, limit, q]
 
-
-	const {data, isLoading} = useQuery({
-		queryKey: ['todos', page, sortField, sortDirection, limit, q],
-		queryFn: async () => await getAllOrders({search: q, limit, page}),
+	const { data, isLoading } = useQuery({
+		queryKey: KEY_QUERY,
+		queryFn: async () => await getAllOrders({ search: q, limit, page }),
 	})
-
-console.log('cccc', data)
-
 
 	const pagesToRender = useMemo(() => {
 		if (!data?.content) return []
@@ -119,8 +116,6 @@ console.log('cccc', data)
 		return pages
 	}, [data])
 
-
-
 	function handleUpdateSort(field: string) {
 		setPage(1)
 		setSortField(field)
@@ -130,7 +125,6 @@ console.log('cccc', data)
 		setPage(1)
 		setLimit(Number(limit))
 	}
-
 
 	function handleChangeSearch(e: ChangeEvent<HTMLInputElement>) {
 		setPage(1)
@@ -143,12 +137,38 @@ console.log('cccc', data)
 		getCoreRowModel: getCoreRowModel(),
 	})
 
+	const handleRenderRow = (cell: Cell<OrdersProps, unknown>) => {
+		const cellValue = cell.getValue()
 
+		if (
+			(cell.column.columnDef.id === 'updated_at' ||
+				cell.column.columnDef.id === 'created_at') &&
+			cellValue !== undefined
+		) {
+			return format(new Date(cellValue as Date), 'dd/MM/yyyy HH:mm:ss')
+		}
+
+		if (cell.column.columnDef.id === 'action') {
+			const orderId = cell.row.original.id
+			return (
+				<Edit
+					className="text-primary"
+					onClick={() => oPenModal(cell)}
+					size={20}
+				/>
+			)
+		}
+		return flexRender(cell.column.columnDef.cell, cell.getContext())
+	}
+
+	function oPenModal(cell: Cell<OrdersProps, unknown>) {
+		setCell(cell)
+		setShow(true)
+	}
 
 	return (
-		<div className='w-full'>
-
-			<div className="flex gap-2 justify-between">
+		<div className="w-full">
+			<div className="flex gap-2 justify-between mb-4">
 				<div className="flex gap-2">
 					<Input
 						placeholder="Search by id or email"
@@ -156,10 +176,12 @@ console.log('cccc', data)
 						defaultValue={q}
 						onChange={useDebounce(handleChangeSearch, 600)}
 					/>
-
 				</div>
 				<div>
-					<Select defaultValue={String(limit)} onValueChange={handleUpdateLimit}>
+					<Select
+						defaultValue={String(limit)}
+						onValueChange={handleUpdateLimit}
+					>
 						<SelectTrigger>
 							<SelectValue placeholder="Select limit" />
 						</SelectTrigger>
@@ -174,8 +196,7 @@ console.log('cccc', data)
 			</div>
 			<div className="rounded-md border">
 				<Table>
-
-				<TableHeader>
+					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
@@ -218,21 +239,20 @@ console.log('cccc', data)
 					<TableBody>
 						{!isLoading &&
 							table.getRowModel().rows?.length > 0 &&
-							table.getRowModel().rows.map((row) => (
-								<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-        {row.getVisibleCells().map((cell) => {
-
-           	const cellValue = cell.getValue();
-			const formattedDate = cellValue !== undefined && (cell.column.columnDef.id === 'updated_at' || cell.column.columnDef.id === 'created_at') ? format(new Date(cellValue as Date), 'dd/MM/yyyy HH:mm:ss') : '';
-
-          return (
-            <TableCell key={cell.id}>
-
-               {!!formattedDate ? formattedDate : flexRender(cell.column.columnDef.cell, cell.getContext())}
-            </TableCell>
-          );
-        })}
-      </TableRow>
+							table.getRowModel().rows.map((row, index) => (
+								<TableRow
+									key={row.id}
+									data-state={row.getIsSelected() && 'selected'}
+									className={`${index % 2 === 0 ? 'bg-blue-50' : 'bg-nome'}`}
+								>
+									{row.getVisibleCells().map((cell) => {
+										return (
+											<TableCell key={cell.id}>
+												{handleRenderRow(cell)}
+											</TableCell>
+										)
+									})}
+								</TableRow>
 							))}
 						{!isLoading && table.getRowModel().rows?.length <= 0 && (
 							<TableRow>
@@ -246,11 +266,13 @@ console.log('cccc', data)
 						)}
 						{isLoading && (
 							<TableRow>
-								<TableCell
-									colSpan={columns.length}
-									className="h-24 text-center"
-								>
-									Carregando dados...
+								<TableCell colSpan={columns.length} className="text-center">
+									<div className="min-h-[400px] flex justify-center items-center ">
+										<LoaderCircleIcon
+											size={60}
+											className="text-primary animate-spin"
+										/>
+									</div>
 								</TableCell>
 							</TableRow>
 						)}
@@ -258,15 +280,15 @@ console.log('cccc', data)
 				</Table>
 			</div>
 			{!isLoading && data && data?.content.length > 0 && (
-				<footer className="w-full flex justify-between items-center gap-10">
-					 <p className="flex-1 text-sm font-bold">
+				<footer className="w-full flex justify-between items-center gap-10 mt-4">
+					<p className="flex-1 text-sm font-bold">
 						Página {data?.page} de {data?.totalPages} com {data?.totalElements}{' '}
 						resultados
 					</p>
 					<Pagination className="flex-1 justify-end">
 						<PaginationContent>
 							<PaginationItem>
-								 <CustomPaginationPrevious
+								<CustomPaginationPrevious
 									onClick={() => setPage(1)}
 									disabled={data?.page === 1}
 								>
@@ -281,7 +303,6 @@ console.log('cccc', data)
 									Anterior
 								</CustomPaginationPrevious>
 							</PaginationItem>
-
 
 							{pagesToRender.map((page) => (
 								<PaginationItem key={page}>
@@ -298,7 +319,6 @@ console.log('cccc', data)
 							))}
 
 							<PaginationItem>
-
 								<CustomPaginationNext
 									onClick={() => setPage(data.page + 1)}
 									disabled={data.page === data.totalPages}
@@ -307,8 +327,7 @@ console.log('cccc', data)
 								</CustomPaginationNext>
 							</PaginationItem>
 							<PaginationItem>
-
-								 <CustomPaginationNext
+								<CustomPaginationNext
 									onClick={() => setPage(data.totalPages)}
 									disabled={data.page === data.totalPages}
 								>
@@ -319,8 +338,12 @@ console.log('cccc', data)
 					</Pagination>
 				</footer>
 			)}
-
+			<StatusOrderModal
+				isOpen={show}
+				onClose={() => setShow(false)}
+				cell={cell}
+				keyQuery={KEY_QUERY}
+			/>
 		</div>
 	)
 }
-

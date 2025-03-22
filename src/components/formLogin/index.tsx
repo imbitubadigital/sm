@@ -8,13 +8,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
-import { singIn } from '@/server'
+
 import { redirect } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
+import { singIn } from '@/server/signin'
 
 export function FormLogin() {
 	const [email, setEmail] = useState('')
