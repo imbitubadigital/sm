@@ -1,4 +1,4 @@
-import { logout } from '@/server/signin'
+import { PrivateHeader } from '@/components/private-header'
 
 export default function LayoutDashboard({
 	children,
@@ -7,9 +7,7 @@ export default function LayoutDashboard({
 }>) {
 	return (
 		<div>
-			<button type="button" onClick={logout}>
-				SAIR
-			</button>
+			<PrivateHeader />
 			{children}
 		</div>
 	)

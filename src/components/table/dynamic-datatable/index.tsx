@@ -67,7 +67,7 @@ export function DynamicDataTable({
 	const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 	const [limit, setLimit] = useQueryState(
 		'limit',
-		parseAsInteger.withDefault(1),
+		parseAsInteger.withDefault(10),
 	)
 
 	const [q, setQ] = useQueryState('q', { defaultValue: '' })
@@ -186,7 +186,7 @@ export function DynamicDataTable({
 							<SelectValue placeholder="Select limit" />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="1">10 Rows</SelectItem>
+							<SelectItem value="10">10 Rows</SelectItem>
 							<SelectItem value="20">20 Rows</SelectItem>
 							<SelectItem value="50">50 Rows</SelectItem>
 							<SelectItem value="100">100 Rows</SelectItem>

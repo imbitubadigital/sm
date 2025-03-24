@@ -1,5 +1,4 @@
-import { DynamicDataTable } from "../table/dynamic-datatable"
-
+import { DynamicDataTable } from '../table/dynamic-datatable'
 
 const columns = [
 	{
@@ -73,11 +72,11 @@ const columns = [
 		header: 'Ação',
 		accessorKey: 'action',
 	},
-
-
 ]
- export function Orders() {
-     return <div className="p-10">
-         <DynamicDataTable columns={columns} />
-     </div>
- }
+export function Orders() {
+	return (
+		<div className="p-4">
+			<DynamicDataTable columns={columns} />
+		</div>
+	)
+}
