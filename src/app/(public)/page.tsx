@@ -4,7 +4,10 @@ import Image from 'next/image'
 
 import AudioPlayer from '@/components/audio-player'
 import { AudioProvider } from '@/contexts/audio-context'
-
+import { useEffect, useRef } from 'react'
+import singer from '../../../public/singer.png'
+import whatsapp from '../../../public/whatsapp.png'
+//import cha from '../../../public/demos/cha-revelacao.mp3'
 export default function Home() {
 	const handleWhatsAppClick = () => {
 		window.open(
@@ -16,51 +19,61 @@ export default function Home() {
 	const demoSongs = [
 		{
 			id: '1',
-			url: '/demos/cha-revelacao.mp3',
+			url: 'https://r2.fidelion.com.br/demos/cha-revelacao.mp3',
 			title: 'Chá revelação - Mamãe Marina e Papai Paulo',
 		},
 		{
 			id: '2',
-			url: '/demos/ana-clara.mp3',
+			url: 'https://r2.fidelion.com.br/demos/ana-clara.mp3',
 			title: 'Aniversário da esposa e mãe Ana Clara',
 		},
 		{
 			id: '3',
-			url: '/demos/marcelo.mp3',
+			url: 'https://r2.fidelion.com.br/demos/marcelo.mp3',
 			title: 'Homenagem pelo aniversário de casamento',
 		},
 		{
 			id: '4',
-			url: '/demos/andreza.mp3',
+			url: 'https://r2.fidelion.com.br/demos/andreza.mp3',
 			title: 'Aniversário da querida Andreza',
 		},
 		{
 			id: '5',
-			url: '/demos/clarinha.mp3',
+			url: 'https://r2.fidelion.com.br/demos/clarinha.mp3',
 			title: 'Perdão Clarinha - esqueci nosso aniversário de namoro',
 		},
 		{
 			id: '6',
-			url: '/demos/cibele.mp3',
+			url: 'https://r2.fidelion.com.br/demos/cibele.mp3',
 			title: 'Conquista - Cibele quero muito mais',
 		},
 		{
 			id: '7',
-			url: '/demos/roberto.mp3',
+			url: 'https://r2.fidelion.com.br/demos/roberto.mp3',
 			title: 'Namoro a distância - Meu amado Roberto',
 		},
 	]
 
+	const audioRef = useRef<HTMLAudioElement>(null)
+	useEffect(() => {
+		// Necessário estar em um useEffect devido às políticas dos navegadores
+		if (audioRef.current) {
+			audioRef.current.play().catch((error) => {
+				console.log('Autoplay foi bloqueado pelo navegador:', error)
+			})
+		}
+	}, [])
 	return (
 		<AudioProvider>
 			<main className="min-h-screen bg-slate-950 flex flex-col">
 				{/* Hero Section */}
+
 				<section className="w-full relative">
 					<div className="absolute inset-0 w-full bg-gradient-to-b from-orange-500/10 to-transparent" />
 					<div className="container mx-auto px-4 py-20 text-center relative z-10">
 						<div className="flex flex-col items-center justify-center mb-6">
 							<Image
-								src="/singer.png"
+								src={singer}
 								alt="Logo Surpresa Musical"
 								width={240}
 								height={240}
@@ -143,6 +156,7 @@ export default function Home() {
 					<h2 className="text-3xl font-bold text-white text-center mb-12">
 						Ouça Nossas Demonstrações
 					</h2>
+
 					<div className="max-w-2xl mx-auto space-y-4">
 						{demoSongs.map((song) => (
 							<AudioPlayer key={song.id} {...song} />
@@ -173,7 +187,7 @@ export default function Home() {
 							className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105 inline-flex items-center gap-3"
 						>
 							<Image
-								src="/whatsapp.png"
+								src={whatsapp}
 								alt="WhatsApp"
 								width={28}
 								height={28}
@@ -196,13 +210,7 @@ export default function Home() {
 							onClick={handleWhatsAppClick}
 							className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105 inline-flex items-center gap-3"
 						>
-							<Image
-								src="/whatsapp.png"
-								alt="WhatsApp"
-								width={28}
-								height={28}
-								className="w-7 h-7"
-							/>
+							<Image src={whatsapp} alt="WhatsApp" width={28} height={28} />
 							<span>Começar Agora</span>
 						</button>
 					</div>

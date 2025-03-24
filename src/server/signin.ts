@@ -8,13 +8,11 @@ import { redirect } from 'next/navigation'
 
 export async function singIn({ email, password }: SignInProps) {
 	const cookiesData = await cookies()
-	console.log('email', email)
-	console.log('pass', process.env.PASS_LOGIN)
+	cookiesData.set(TOKEN_KEY, 'token')
 	if (
 		email === process.env.EMAIL_LOGIN &&
 		password === process.env.PASS_LOGIN
 	) {
-		//redirect('/')
 		return true
 	}
 	return false

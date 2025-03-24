@@ -1,6 +1,7 @@
 'use client'
 
 import { useAudioContext } from '@/contexts/audio-context'
+import { Pause, Play } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 type AudioPlayerProps = {
@@ -56,6 +57,10 @@ const AudioPlayer = ({ url, title, id }: AudioPlayerProps) => {
 		}
 	}, [setCurrentPlayingId])
 
+	const bt = !isPlaying
+		? 'w-12 h-12 flex items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 transition-all duration-300 shadow-lg hover:shadow-orange-500/25 relative z-10'
+		: 'w-12 h-12 flex items-center justify-center rounded-full bg-gradient-to-r from-green-600 to-green-300 hover:from-green-800 hover:to-green-400 transition-all duration-300 shadow-lg hover:shadow-orange-500/25 relative z-10'
+
 	return (
 		<div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-br from-orange-500/10 via-amber-500/10 to-purple-500/10 backdrop-blur-sm border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.07)] hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] transition-all duration-300 hover:scale-105 group relative overflow-hidden">
 			<div className="absolute inset-0 bg-gradient-to-br from-orange-500/0 to-orange-500/0 group-hover:from-orange-500/5 group-hover:to-amber-500/5 transition-all duration-500" />
@@ -63,16 +68,16 @@ const AudioPlayer = ({ url, title, id }: AudioPlayerProps) => {
 				<button
 					type="button"
 					onClick={handleTogglePlay}
-					className="w-12 h-12 flex items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 transition-all duration-300 shadow-lg hover:shadow-orange-500/25 relative z-10"
+					className={bt}
 					aria-label={isPlaying ? 'Pausar' : 'Tocar'}
 				>
 					{isPlaying ? (
-						<span className="material-symbols-outlined text-white text-2xl">
-							pause
+						<span className="text-white text-2xl">
+							<Pause />
 						</span>
 					) : (
-						<span className="material-symbols-outlined text-white text-2xl">
-							play_arrow
+						<span className=" text-white text-2xl">
+							<Play />
 						</span>
 					)}
 				</button>

@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { type NextRequest, NextResponse } from 'next/server'
 
 const publicRoutes = [
