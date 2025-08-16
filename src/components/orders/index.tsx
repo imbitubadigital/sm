@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { DynamicDataTable } from '../table/dynamic-datatable'
 
 const columns = [
@@ -76,7 +77,9 @@ const columns = [
 export function Orders() {
 	return (
 		<div className="p-4">
-			<DynamicDataTable columns={columns} />
+			<Suspense fallback={<div>Loading...</div>}>
+				<DynamicDataTable columns={columns} />
+			</Suspense>
 		</div>
 	)
 }

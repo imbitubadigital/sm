@@ -99,13 +99,15 @@ export default function Home() {
 								momentos mais marcantes da vida do aniversariante.
 							</p>
 						</div>
-						<button
-							type="button"
-							onClick={handleWhatsAppClick}
-							className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105"
-						>
-							Fazer Pedido pelo WhatsApp
-						</button>
+						{Number(process.env.NEXT_PUBLIC_SHOW_ACTION) === 1 && (
+							<button
+								type="button"
+								onClick={handleWhatsAppClick}
+								className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105"
+							>
+								Fazer Pedido pelo WhatsApp
+							</button>
+						)}
 					</div>
 				</section>
 
@@ -131,7 +133,7 @@ export default function Home() {
 							{
 								title: 'Entrega',
 								description:
-									'Receba sua música pronta para surpreender após o pagamento em até 1 dia útil',
+									'Receba sua música pronta para surpreender após o pagamento em até 1 hora',
 								gradient: 'from-blue-500/20 to-cyan-500/20',
 							},
 						].map((step, index) => (
@@ -181,20 +183,22 @@ export default function Home() {
 							Uma música personalizada é um presente único e especial que será
 							lembrado para sempre.
 						</p>
-						<button
-							type="button"
-							onClick={handleWhatsAppClick}
-							className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105 inline-flex items-center gap-3"
-						>
-							<Image
-								src={whatsapp}
-								alt="WhatsApp"
-								width={28}
-								height={28}
-								className="w-7 h-7"
-							/>
-							<span>Solicitar Agora</span>
-						</button>
+						{Number(process.env.NEXT_PUBLIC_SHOW_ACTION) === 1 && (
+							<button
+								type="button"
+								onClick={handleWhatsAppClick}
+								className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105 inline-flex items-center gap-3"
+							>
+								<Image
+									src={whatsapp}
+									alt="WhatsApp"
+									width={28}
+									height={28}
+									className="w-7 h-7"
+								/>
+								<span>Solicitar Agora</span>
+							</button>
+						)}
 					</div>
 				</section>
 
@@ -205,14 +209,16 @@ export default function Home() {
 						<h2 className="text-3xl font-bold text-white mb-8">
 							Pronto para criar uma surpresa inesquecível?
 						</h2>
-						<button
-							type="button"
-							onClick={handleWhatsAppClick}
-							className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105 inline-flex items-center gap-3"
-						>
-							<Image src={whatsapp} alt="WhatsApp" width={28} height={28} />
-							<span>Começar Agora</span>
-						</button>
+						{Number(process.env.NEXT_PUBLIC_SHOW_ACTION) === 1 && (
+							<button
+								type="button"
+								onClick={handleWhatsAppClick}
+								className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105 inline-flex items-center gap-3"
+							>
+								<Image src={whatsapp} alt="WhatsApp" width={28} height={28} />
+								<span>Começar Agora</span>
+							</button>
+						)}
 					</div>
 				</section>
 
