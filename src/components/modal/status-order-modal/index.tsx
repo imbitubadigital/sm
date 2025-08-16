@@ -43,7 +43,7 @@ const FormSchema = z.object({
 			'produção entregue',
 		],
 		{
-			required_error: 'Selecione uma opção.',
+			required_error: 'Selecione uma das opções.',
 		},
 	),
 })
