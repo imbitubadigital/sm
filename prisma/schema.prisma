@@ -34,4 +34,13 @@ model order_surpresa_musical {
   push_name         String?   @db.VarChar
   music_style       String?   @db.VarChar
   other_declaration String?   @db.VarChar
+  link_payment      String?   @db.VarChar
+  code_payment      String?   @db.VarChar
+  task_id           String?   @db.VarChar
+  primary_audio_url String?   @db.VarChar
+  second_audio_url  String?   @db.VarChar
 }
+
+//link gerado
+
+//pagamento confirmado
