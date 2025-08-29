@@ -18,6 +18,11 @@ const columns = [
 		accessorKey: 'user',
 	},
 	{
+		id: 'push_name',
+		header: 'Proprietário do número',
+		accessorKey: 'push_name',
+	},
+	{
 		id: 'whatsapp',
 		header: 'Whatsapp',
 		accessorKey: 'whatsapp',
@@ -43,20 +48,46 @@ const columns = [
 		accessorKey: 'tribute_reason',
 	},
 	{
+		id: 'honored_feature',
+		header: 'Característica',
+		accessorKey: 'honored_feature',
+	},
+	{
+		id: 'declaration',
+		header: 'Declaração',
+		accessorKey: 'declaration',
+	},
+	{
+		id: 'other_declaration',
+		header: 'Outras palavras',
+		accessorKey: 'other_declaration',
+	},
+
+	{
 		id: 'music_style',
 		header: 'Estilo',
 		accessorKey: 'music_style',
 	},
-	// {
-	// 	id: 'declaration',
-	// 	header: 'Declaração',
-	// 	accessorKey: 'declaration',
-	// },
-	// {
-	// 	id: 'other_declaration',
-	// 	header: 'Outras palavras',
-	// 	accessorKey: 'other_declaration',
-	// },
+	{
+		id: 'link_payment',
+		header: 'Link de pagamento',
+		accessorKey: 'link_payment',
+	},
+	{
+		id: 'billing_type',
+		header: 'Tipo de pagamento',
+		accessorKey: 'billing_type',
+	},
+	{
+		id: 'primary_audio_url',
+		header: 'Música 01',
+		accessorKey: 'primary_audio_url',
+	},
+	{
+		id: 'second_audio_url',
+		header: 'Música 02',
+		accessorKey: 'second_audio_url',
+	},
 
 	{
 		id: 'updated_at',

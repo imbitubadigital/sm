@@ -39,6 +39,7 @@ model order_surpresa_musical {
   task_id           String?   @db.VarChar
   primary_audio_url String?   @db.VarChar
   second_audio_url  String?   @db.VarChar
+  billing_type      String?   @db.VarChar
 }
 
 //link gerado
