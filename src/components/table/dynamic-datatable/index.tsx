@@ -67,7 +67,7 @@ export function DynamicDataTable({
 	const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 	const [limit, setLimit] = useQueryState(
 		'limit',
-		parseAsInteger.withDefault(10),
+		parseAsInteger.withDefault(20),
 	)
 
 	const [q, setQ] = useQueryState('q', { defaultValue: '' })
