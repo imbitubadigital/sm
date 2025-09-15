@@ -1,6 +1,7 @@
 'use client'
 
 import { useAudioContext } from '@/contexts/audio-context'
+import { cn } from '@/lib/utils'
 import { Pause, Play } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -8,9 +9,15 @@ type AudioPlayerProps = {
 	url: string
 	title: string
 	id: string
+	isTitleBlack?: boolean
 }
 
-const AudioPlayer = ({ url, title, id }: AudioPlayerProps) => {
+const AudioPlayer = ({
+	url,
+	title,
+	id,
+	isTitleBlack = false,
+}: AudioPlayerProps) => {
 	const [isPlaying, setIsPlaying] = useState(false)
 	const audioRef = useRef<HTMLAudioElement>(null)
 	const { currentPlayingId, setCurrentPlayingId } = useAudioContext()
@@ -83,7 +90,13 @@ const AudioPlayer = ({ url, title, id }: AudioPlayerProps) => {
 				</button>
 			</div>
 			<div className="relative z-10 flex-1 min-w-0">
-				<p className="text-white font-medium whitespace-normal pr-2">{title}</p>
+				<p
+					className={cn('text-white font-medium whitespace-normal pr-2', {
+						'text-black': isTitleBlack,
+					})}
+				>
+					{title}
+				</p>
 			</div>
 
 			<audio ref={audioRef} src={url}>

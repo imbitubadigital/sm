@@ -29,7 +29,7 @@ import { LoaderCircleIcon } from 'lucide-react'
 type StatusOrderModalProps = {
 	isOpen: boolean
 	onClose: () => void
-	cell: Cell<OrderSm, unknown> | null
+	cell: OrderSm
 	keyQuery: (string | number)[]
 }
 
@@ -55,8 +55,8 @@ export function StatusOrderModal({
 	cell,
 	keyQuery,
 }: StatusOrderModalProps) {
-	const orderId = cell?.row.original.id
-	const status = cell?.row.original.status as StatusOrder
+	const orderId = cell.id
+	const status = cell.status as StatusOrder
 
 	const queryClient = useQueryClient()
 
@@ -77,18 +77,15 @@ export function StatusOrderModal({
 	}
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
-			<DialogContent>
+			<DialogContent className="w-[330px]">
 				<DialogHeader>
-					<DialogTitle>Atualizar status do pedido #{orderId}</DialogTitle>
+					<DialogTitle>Atualizar status</DialogTitle>
 					<DialogDescription>
 						Selecione a opção que deseja alterar
 					</DialogDescription>
 				</DialogHeader>
 				<Form {...form}>
-					<form
-						onSubmit={form.handleSubmit(onSubmit)}
-						className="w-2/3 space-y-6"
-					>
+					<form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-6">
 						<FormField
 							control={form.control}
 							name="type"
@@ -108,12 +105,21 @@ export function StatusOrderModal({
 													Aguardando pagamento
 												</FormLabel>
 											</FormItem>
+
 											<FormItem className="flex items-center space-x-3 space-y-0">
 												<FormControl>
 													<RadioGroupItem value="pagamento confirmado" />
 												</FormControl>
 												<FormLabel className="font-normal">
 													Pagamento confirmado
+												</FormLabel>
+											</FormItem>
+											<FormItem className="flex items-center space-x-3 space-y-0">
+												<FormControl>
+													<RadioGroupItem value="link gerado" />
+												</FormControl>
+												<FormLabel className="font-normal">
+													Link de pagamento gerado
 												</FormLabel>
 											</FormItem>
 											<FormItem className="flex items-center space-x-3 space-y-0">
@@ -132,18 +138,26 @@ export function StatusOrderModal({
 													Produção entregue
 												</FormLabel>
 											</FormItem>
+											<FormItem className="flex items-center space-x-3 space-y-0">
+												<FormControl>
+													<RadioGroupItem value="cancelado" />
+												</FormControl>
+												<FormLabel className="font-normal">Cancelado</FormLabel>
+											</FormItem>
 										</RadioGroup>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" disabled={form.formState.isSubmitting}>
-							Salvando
-							{updateStatus.isPending && (
-								<LoaderCircleIcon className="animate-spin" />
-							)}
-						</Button>
+						<div className="text-right">
+							<Button type="submit" disabled={form.formState.isSubmitting}>
+								Salvar
+								{updateStatus.isPending && (
+									<LoaderCircleIcon className="animate-spin" />
+								)}
+							</Button>
+						</div>
 					</form>
 				</Form>
 			</DialogContent>
