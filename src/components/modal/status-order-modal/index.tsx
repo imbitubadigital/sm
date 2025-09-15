@@ -1,5 +1,5 @@
 'use client'
-import type { OrdersProps } from '@/@types/order'
+import type { OrderSm } from '@/@types/order'
 import { Button } from '@/components/ui/button'
 import {
 	Dialog,
@@ -29,14 +29,13 @@ import { LoaderCircleIcon } from 'lucide-react'
 type StatusOrderModalProps = {
 	isOpen: boolean
 	onClose: () => void
-	cell: Cell<OrdersProps, unknown> | null
+	cell: Cell<OrderSm, unknown> | null
 	keyQuery: (string | number)[]
 }
 
 const FormSchema = z.object({
 	type: z.enum(
 		[
-			'pedido incompleto',
 			'aguardando pagamento',
 			'pagamento confirmado',
 			'em produção',
@@ -101,14 +100,6 @@ export function StatusOrderModal({
 											defaultValue={status}
 											className="flex flex-col space-y-1"
 										>
-											<FormItem className="flex items-center space-x-3 space-y-0">
-												<FormControl>
-													<RadioGroupItem value="pedido incompleto" />
-												</FormControl>
-												<FormLabel className="font-normal">
-													Pedido Incompleto
-												</FormLabel>
-											</FormItem>
 											<FormItem className="flex items-center space-x-3 space-y-0">
 												<FormControl>
 													<RadioGroupItem value="aguardando pagamento" />

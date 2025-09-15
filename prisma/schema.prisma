@@ -42,6 +42,30 @@ model order_surpresa_musical {
   billing_type      String?   @db.VarChar
 }
 
-//link gerado
-
-//pagamento confirmado
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model order_sm {
+  id                     BigInt    @id @default(autoincrement())
+  created_at             DateTime  @default(now()) @db.Timestamptz(6)
+  billing_type           String?   @db.VarChar
+  code_payment           String?   @db.VarChar
+  declaration            String?
+  honored_feature        String?
+  honoree_age            String?   @db.VarChar
+  honoree_name           String?   @db.VarChar
+  kinship                String?   @db.VarChar
+  link_payment           String?   @db.VarChar
+  music_style            String?   @db.VarChar
+  other_declaration      String?   @db.VarChar
+  primary_audio_url      String?   @db.VarChar
+  push_name              String?   @db.VarChar
+  remoteJid              String?   @db.VarChar
+  second_audio_url       String?   @db.VarChar
+  status                 String
+  task_id                String?   @db.VarChar
+  tribute_reason         String?   @db.VarChar
+  updated_at             DateTime? @db.Timestamp(6)
+  user                   String?   @db.VarChar
+  whatsapp               String?   @db.VarChar
+  additional_information String?
+  song_lyrics            String?
+}

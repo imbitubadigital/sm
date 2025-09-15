@@ -7,7 +7,7 @@ import { db } from '@/lib/prisma'
 import type { Prisma } from '@prisma/client'
 
 export async function getAllOrders({ search, limit, page }: SearchPaginate) {
-	const where: Prisma.order_surpresa_musicalWhereInput = {
+	const where: Prisma.order_smWhereInput = {
 		OR: [
 			{
 				id: Number(search),
@@ -20,8 +20,8 @@ export async function getAllOrders({ search, limit, page }: SearchPaginate) {
 			},
 		],
 	}
-	const count = await db.order_surpresa_musical.count({ where })
-	const content = await db.order_surpresa_musical.findMany({
+	const count = await db.order_sm.count({ where })
+	const content = await db.order_sm.findMany({
 		where,
 		orderBy: {
 			updated_at: 'desc',
@@ -57,6 +57,14 @@ export async function updateStatusOrders({
 			id,
 		},
 		data: updateData,
+	})
+
+	return order
+}
+
+export async function getOrder(id: number) {
+	const order = await db.order_sm.findUnique({
+		where: { id },
 	})
 
 	return order
