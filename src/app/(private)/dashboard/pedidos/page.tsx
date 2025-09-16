@@ -1,5 +1,10 @@
 import { Orders } from '@/components/orders'
+import { Suspense } from 'react'
 
 export default function PageOrders() {
-	return <Orders />
+	return (
+		<Suspense>
+			<Orders />
+		</Suspense>
+	)
 }

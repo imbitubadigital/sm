@@ -43,8 +43,8 @@ import { format } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
 import { CustomPaginationNext } from '../custom-pagination-next'
 
-import type { OrdersProps } from '@/@types/order'
-import { StatusOrderModal } from '@/components/modal/status-order-modal'
+import type { OrderSm } from '@/@types/order'
+//import { StatusOrderModal } from '@/components/modal/status-order-modal'
 import { getAllOrders } from '@/server/order'
 import { CustomPaginationPrevious } from '../custom-pagination-previous'
 
@@ -63,7 +63,7 @@ export function DynamicDataTable({
 	defaultSortDirection = 'asc',
 }: DataTableProps) {
 	const [show, setShow] = useState(false)
-	const [cell, setCell] = useState<Cell<OrdersProps, unknown> | null>(null)
+	const [cell, setCell] = useState<Cell<OrderSm, unknown> | null>(null)
 	const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 	const [limit, setLimit] = useQueryState(
 		'limit',
@@ -137,7 +137,7 @@ export function DynamicDataTable({
 		getCoreRowModel: getCoreRowModel(),
 	})
 
-	const handleRenderRow = (cell: Cell<OrdersProps, unknown>) => {
+	const handleRenderRow = (cell: Cell<OrderSm, unknown>) => {
 		const cellValue = cell.getValue()
 
 		if (
@@ -161,7 +161,7 @@ export function DynamicDataTable({
 		return flexRender(cell.column.columnDef.cell, cell.getContext())
 	}
 
-	function oPenModal(cell: Cell<OrdersProps, unknown>) {
+	function oPenModal(cell: Cell<OrderSm, unknown>) {
 		setCell(cell)
 		setShow(true)
 	}
@@ -338,12 +338,12 @@ export function DynamicDataTable({
 					</Pagination>
 				</footer>
 			)}
-			<StatusOrderModal
+			{/* <StatusOrderModal
 				isOpen={show}
 				onClose={() => setShow(false)}
 				cell={cell}
 				keyQuery={KEY_QUERY}
-			/>
+			/> */}
 		</div>
 	)
 }
