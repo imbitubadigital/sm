@@ -2,6 +2,7 @@
 
 import { LetterSheet } from '@/components/letter-sheet'
 import { OrderFormFirstStepModal } from '@/components/modal/order-form-first-step-modal'
+import { OrderFormSecondStepModal } from '@/components/modal/order-form-second-step-modal'
 import { StatusOrderModal } from '@/components/modal/status-order-modal'
 import { OrderDetail } from '@/components/order-detail'
 import { BADGE, STATUS } from '@/components/orders/data-type'
@@ -29,6 +30,7 @@ export default function OrderPage() {
 	const [openSheet, setOpenSheet] = useState(false)
 	const [showStatusModal, setShowStatusModal] = useState(false)
 	const [showFirstStepModal, setShowFirstStepModal] = useState(false)
+	const [showSecondStepModal, setShowSecondStepModal] = useState(false)
 	const { id } = param
 
 	const KEY_QUERY = ['order', id]
@@ -37,8 +39,6 @@ export default function OrderPage() {
 		queryKey: KEY_QUERY,
 		queryFn: async () => await getOrder(Number(id)),
 	})
-
-	console.log({ data, isLoading })
 
 	return (
 		<>
@@ -98,7 +98,7 @@ export default function OrderPage() {
 												</NavigationMenuLink>
 												<NavigationMenuLink
 													className="w-[180px] cursor-pointer "
-													//onClick={() => setOpenSheet(true)}
+													onClick={() => setShowSecondStepModal(true)}
 												>
 													Editar dados secundários
 												</NavigationMenuLink>
@@ -125,6 +125,12 @@ export default function OrderPage() {
 						<OrderFormFirstStepModal
 							isOpen={showFirstStepModal}
 							onClose={() => setShowFirstStepModal(false)}
+							order={data}
+							keyQuery={KEY_QUERY}
+						/>
+						<OrderFormSecondStepModal
+							isOpen={showSecondStepModal}
+							onClose={() => setShowSecondStepModal(false)}
 							order={data}
 							keyQuery={KEY_QUERY}
 						/>

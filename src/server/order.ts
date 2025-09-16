@@ -2,6 +2,7 @@
 
 import type { PaginationOrders, SearchPaginate } from '@/@types/order'
 import type { FormFirstStepOrder } from '@/components/modal/order-form-first-step-modal'
+import type { FormSecondStepOrder } from '@/components/modal/order-form-second-step-modal'
 import type { StatusOrder } from '@/components/modal/status-order-modal'
 import { db } from '@/lib/prisma'
 
@@ -49,6 +50,10 @@ type UpdateOrderFirstStepProps = {
 	id: number
 	data: FormFirstStepOrder
 }
+type UpdateOrderSecondStepProps = {
+	id: number
+	data: FormSecondStepOrder
+}
 
 export async function updateStatusOrders({
 	id,
@@ -70,6 +75,22 @@ export async function updateOrdersFirstStep({
 	id,
 	data,
 }: UpdateOrderFirstStepProps) {
+	const updateData: Prisma.order_surpresa_musicalUpdateInput = {
+		...data,
+	}
+	const order = await db.order_sm.update({
+		where: {
+			id,
+		},
+		data: updateData,
+	})
+
+	return order
+}
+export async function updateOrdersSecondStep({
+	id,
+	data,
+}: UpdateOrderSecondStepProps) {
 	const updateData: Prisma.order_surpresa_musicalUpdateInput = {
 		...data,
 	}

@@ -5,7 +5,6 @@ import { CustomCard } from '../card'
 import type { OrderDetailProps } from './types'
 
 export function OrderDetail({ data }: OrderDetailProps) {
-	console.log('data.second_audio_url', data.second_audio_url)
 	return (
 		<AudioProvider>
 			<div className="space-y-4">

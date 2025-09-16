@@ -22,88 +22,67 @@ import { z } from 'zod'
 
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { updateOrdersFirstStep, updateStatusOrders } from '@/server/order'
+import { Textarea } from '@/components/ui/textarea'
+import {
+	updateOrdersFirstStep,
+	updateOrdersSecondStep,
+	updateStatusOrders,
+} from '@/server/order'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Cell } from '@tanstack/react-table'
 import { LoaderCircleIcon } from 'lucide-react'
 
-type FormFirstStepModalProps = {
+type FormSecondStepModalProps = {
 	isOpen: boolean
 	onClose: () => void
 	order: OrderSm
 	keyQuery: (string | number)[]
 }
 
-const FormOrderFirstSchema = z.object({
-	honoree_name: z
+const FormOrderSecondSchema = z.object({
+	additional_information: z.string().optional(),
+	declaration: z
 		.string({
-			required_error: 'Informe o nome.',
-		})
-		.min(1, 'Informe o nome.'),
-	honoree_age: z
-		.string({
-			required_error: 'Informe a idade.',
+			required_error: 'Informe a declaração.',
 		})
 		.min(1, {
-			message: 'Informe a idade.',
+			message: 'Informe a declaração.',
 		}),
-	kinship: z
+	honored_feature: z
 		.string({
-			required_error: 'Informe o parentesco.',
+			required_error: 'Informe o que a pessoa representa.',
 		})
 		.min(1, {
-			message: 'Informe o parentesco.',
+			message: 'Informe o que a pessoa representa.',
 		}),
-	music_style: z
-		.string({
-			required_error: 'Informe estilo da música.',
-		})
-		.min(1, {
-			message: 'Informe estilo da música.',
-		}),
-	tribute_reason: z
-		.string({
-			required_error: 'Informe o motivo.',
-		})
-		.min(1, {
-			message: 'Informe o motivo.',
-		}),
-	user: z
-		.string({
-			required_error: 'Informe o nome do titular.',
-		})
-		.min(1, {
-			message: 'Informe o nome do titular.',
-		}),
+	other_declaration: z.string().optional(),
 })
 
-export type FormFirstStepOrder = z.infer<typeof FormOrderFirstSchema>
+export type FormSecondStepOrder = z.infer<typeof FormOrderSecondSchema>
 
-export function OrderFormFirstStepModal({
+export function OrderFormSecondStepModal({
 	isOpen,
 	onClose,
 	order,
 	keyQuery,
-}: FormFirstStepModalProps) {
+}: FormSecondStepModalProps) {
 	const orderId = order.id
 
 	const queryClient = useQueryClient()
 
-	const form = useForm<z.infer<typeof FormOrderFirstSchema>>({
-		resolver: zodResolver(FormOrderFirstSchema),
+	const form = useForm<z.infer<typeof FormOrderSecondSchema>>({
+		resolver: zodResolver(FormOrderSecondSchema),
 		mode: 'all',
 		defaultValues: {
-			honoree_name: order.honoree_name || '',
-			honoree_age: order.honoree_age || '',
-			kinship: order.kinship || '',
-			music_style: order.music_style || '',
-			tribute_reason: order.tribute_reason || '',
-			user: order.user || '',
+			declaration: order.declaration || '',
+			honored_feature: order.honored_feature || '',
+			other_declaration: order.other_declaration || '',
+			additional_information: order.additional_information || '',
 		},
 	})
 
 	const updateStatus = useMutation({
-		mutationFn: updateOrdersFirstStep,
+		mutationFn: updateOrdersSecondStep,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: keyQuery })
 			onClose()
@@ -113,7 +92,7 @@ export function OrderFormFirstStepModal({
 		},
 	})
 
-	async function onSubmit(data: z.infer<typeof FormOrderFirstSchema>) {
+	async function onSubmit(data: z.infer<typeof FormOrderSecondSchema>) {
 		updateStatus.mutate({ id: Number(orderId), data })
 	}
 	return (
@@ -129,14 +108,14 @@ export function OrderFormFirstStepModal({
 					<form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-6">
 						<FormField
 							control={form.control}
-							name="honoree_name"
+							name="declaration"
 							render={({ field }) => (
 								<FormItem className="w-full flex flex-col gap-1">
-									<FormLabel>Homenageado(a)</FormLabel>
+									<FormLabel>Declaração</FormLabel>
 									<FormControl>
-										<Input
-											id="honoree_name"
-											placeholder="Nome do(a) homenageado(a)"
+										<Textarea
+											id="declaration"
+											placeholder="Declaração"
 											className="disabled:bg-gray-200 disabled:text-gray-6700"
 											{...field}
 										/>
@@ -147,14 +126,14 @@ export function OrderFormFirstStepModal({
 						/>
 						<FormField
 							control={form.control}
-							name="honoree_age"
+							name="honored_feature"
 							render={({ field }) => (
 								<FormItem className="w-full flex flex-col gap-1">
-									<FormLabel>Idade</FormLabel>
+									<FormLabel>O que representa</FormLabel>
 									<FormControl>
-										<Input
-											id="honoree_age"
-											placeholder="Idade do(a) homenageado(a)"
+										<Textarea
+											id="honored_feature"
+											placeholder=">O que representa"
 											className="disabled:bg-gray-200 disabled:text-gray-6700"
 											{...field}
 										/>
@@ -165,14 +144,14 @@ export function OrderFormFirstStepModal({
 						/>
 						<FormField
 							control={form.control}
-							name="kinship"
+							name="other_declaration"
 							render={({ field }) => (
 								<FormItem className="w-full flex flex-col gap-1">
-									<FormLabel>Parentesco</FormLabel>
+									<FormLabel>Outras declarações</FormLabel>
 									<FormControl>
-										<Input
+										<Textarea
 											id="kinship"
-											placeholder="Informe o parentesco"
+											placeholder="Informe outras declarações"
 											className="disabled:bg-gray-200 disabled:text-gray-6700"
 											{...field}
 										/>
@@ -183,14 +162,14 @@ export function OrderFormFirstStepModal({
 						/>
 						<FormField
 							control={form.control}
-							name="tribute_reason"
+							name="additional_information"
 							render={({ field }) => (
 								<FormItem className="w-full flex flex-col gap-1">
-									<FormLabel>Motivo da homenagem</FormLabel>
+									<FormLabel>Nova informações ou alterações</FormLabel>
 									<FormControl>
-										<Input
-											id="tribute_reason"
-											placeholder="Motivo da homenagem"
+										<Textarea
+											id="additional_information"
+											placeholder="Nova informações ou alterações"
 											className="disabled:bg-gray-200 disabled:text-gray-6700"
 											{...field}
 										/>
@@ -199,42 +178,7 @@ export function OrderFormFirstStepModal({
 								</FormItem>
 							)}
 						/>
-						<FormField
-							control={form.control}
-							name="music_style"
-							render={({ field }) => (
-								<FormItem className="w-full flex flex-col gap-1">
-									<FormLabel>Estilo da música</FormLabel>
-									<FormControl>
-										<Input
-											id="music_style"
-											placeholder="Estilo da música"
-											className="disabled:bg-gray-200 disabled:text-gray-6700"
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="user"
-							render={({ field }) => (
-								<FormItem className="w-full flex flex-col gap-1">
-									<FormLabel>Titular do pedido</FormLabel>
-									<FormControl>
-										<Input
-											id="user"
-											placeholder="Nome do titular"
-											className="disabled:bg-gray-200 disabled:text-gray-6700"
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+
 						<div className="text-right">
 							<Button type="submit" disabled={form.formState.isSubmitting}>
 								Salvar
