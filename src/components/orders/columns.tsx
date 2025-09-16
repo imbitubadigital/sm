@@ -43,12 +43,12 @@ export const columns: ColumnDef<OrderSm>[] = [
 		},
 	},
 	{
-		accessorKey: 'whatsapps',
-		header: 'Homenageado(a)',
+		accessorKey: 'billing_type',
+		header: 'Tipo pagamento',
 		cell: ({ row }) => {
 			return (
 				<div className="flex flex-col">
-					<span>{row.original.status}</span>
+					<span>{row.original.billing_type || '-'}</span>
 				</div>
 			)
 		},
@@ -60,6 +60,25 @@ export const columns: ColumnDef<OrderSm>[] = [
 			const createdAt = row.original.created_at
 			const formattedDay = format(new Date(createdAt), 'dd/MM/yyyy')
 			const formattedHour = `às ${format(new Date(createdAt), 'HH:mm')}h`
+			return (
+				<div className="flex flex-col">
+					<span className="text-sm">{formattedDay}</span>
+					<span className="text-sm">{formattedHour}</span>
+				</div>
+			)
+		},
+	},
+	{
+		accessorKey: 'updated_at',
+		header: 'Atualizado em',
+		cell: ({ row }) => {
+			const updatedAt = row.original.updated_at
+			const formattedDay = updatedAt
+				? format(new Date(updatedAt), 'dd/MM/yyyy')
+				: ''
+			const formattedHour = updatedAt
+				? `às ${format(new Date(updatedAt), 'HH:mm')}h`
+				: ''
 			return (
 				<div className="flex flex-col">
 					<span className="text-sm">{formattedDay}</span>

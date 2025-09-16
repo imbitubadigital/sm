@@ -16,7 +16,7 @@ export function OrderDetail({ data }: OrderDetailProps) {
 							{data.user as string}
 						</p>
 						<p>
-							<span className="font-semibold text-sm">Original fone</span>:{' '}
+							<span className="font-semibold text-sm">Nome do fone</span>:{' '}
 							{data.push_name as string}
 						</p>
 					</CustomCard>
@@ -68,19 +68,21 @@ export function OrderDetail({ data }: OrderDetailProps) {
 						)}
 					</CustomCard>
 					<CustomCard title="Música 02">
-						<AudioPlayer
-							id={'2'}
-							url={data.second_audio_url || ''}
-							title="Segunda versão"
-							isTitleBlack
-						/>
+						{data.second_audio_url && (
+							<AudioPlayer
+								id={'2'}
+								url={data.second_audio_url || ''}
+								title="Segunda versão"
+								isTitleBlack
+							/>
+						)}
 					</CustomCard>
 					<CustomCard title="Datas">
-						<p>
+						<p className="text-sm">
 							<span className="font-semibold text-sm">Criado em</span>:{' '}
 							{format(data.created_at as Date, 'dd/MM/yyyy HH:mm')}
 						</p>
-						<p>
+						<p className="text-sm">
 							<span className="font-semibold text-sm">Atualizado em</span>:{' '}
 							{format(data.updated_at as Date, 'dd/MM/yyyy HH:mm')}
 						</p>

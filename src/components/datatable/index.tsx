@@ -90,8 +90,7 @@ export function DataTable<TData, TValue>({
 						{isLoading && data.length < 1 ? (
 							<TableRow>
 								<TableCell colSpan={columns.length} className="min-h-[400px]">
-									<div className="flex justify-center items-center min-h-[400px]">
-										{' '}
+									<div className="flex justify-center items-center min-h-[calc(100vh-260px)]">
 										<LoaderIcon
 											size={60}
 											className="animate-spin text-gray-400"

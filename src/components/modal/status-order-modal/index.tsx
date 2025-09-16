@@ -38,8 +38,10 @@ const FormSchema = z.object({
 		[
 			'aguardando pagamento',
 			'pagamento confirmado',
+			'link gerado',
 			'em produção',
 			'produção entregue',
+			'cancelado',
 		],
 		{
 			required_error: 'Selecione uma das opções.',
@@ -69,6 +71,9 @@ export function StatusOrderModal({
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: keyQuery })
 			onClose()
+		},
+		onError: (error) => {
+			console.error('Error updating status:', error)
 		},
 	})
 
