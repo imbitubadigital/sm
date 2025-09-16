@@ -111,3 +111,8 @@ export async function getOrder(id: number) {
 
 	return order
 }
+export async function removeOrder(id: number) {
+	await db.order_sm.delete({
+		where: { id },
+	})
+}

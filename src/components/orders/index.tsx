@@ -15,9 +15,8 @@ export function Orders() {
 	const [limit] = useQueryState('limit', parseAsInteger)
 
 	const [q] = useQueryState('q', { defaultValue: '' })
-	const [sort] = useQueryState('sort', { defaultValue: '' })
 
-	const KEY_QUERY = ['paginate-order', page, sort, limit, q]
+	const KEY_QUERY = ['paginate-order', page, limit, q]
 
 	const { data, isLoading } = useQuery({
 		queryKey: KEY_QUERY,
