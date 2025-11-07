@@ -39,8 +39,16 @@ export function OrderDetail({ data }: OrderDetailProps) {
 						<p>{data.tribute_reason as string}</p>
 					</CustomCard>
 					<CustomCard title="Estilo da música">
-						<p>{data.music_style as string}</p>
+						<p>
+							<span className="font-semibold text-sm">Estilo:</span>:{' '}
+							{data.music_style as string}
+						</p>
+						<p>
+							<span className="font-semibold text-sm">Voz:</span>:{' '}
+							{data.voice as string}
+						</p>
 					</CustomCard>
+
 					<CustomCard title="Forma de pagamento">
 						<p>{data.billing_type as string}</p>
 					</CustomCard>

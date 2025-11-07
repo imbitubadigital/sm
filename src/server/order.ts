@@ -107,6 +107,7 @@ export async function getOrder(id: number) {
 	const order = await db.order_sm.findUnique({
 		where: { id },
 	})
+	console.log(order)
 
 	return order
 }

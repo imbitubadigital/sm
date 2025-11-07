@@ -23,6 +23,7 @@ export type OrderSm = {
 	whatsapp: string | null
 	additional_information: string | null
 	song_lyrics: string | null
+	voice: string | null
 }
 
 export type PaginationOrders = {
