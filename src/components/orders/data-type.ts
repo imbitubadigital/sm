@@ -1,5 +1,6 @@
 export const STATUS: Record<string, string> = {
 	'aguardando pagamento': 'Aguardando pagamento',
+	'aguardando producao': 'Aguardando produção',
 	'pagamento confirmado': 'Pagamento confirmado',
 	'em produção': 'Em produção',
 	'produção entregue': 'Produção entregue',
@@ -9,6 +10,7 @@ export const STATUS: Record<string, string> = {
 
 export const BADGE = {
 	'aguardando pagamento': 'waiting',
+	'aguardando producao': 'waiting',
 	'pagamento confirmado': 'assas',
 	'em produção': 'production',
 	'link gerado': 'link',

@@ -41,6 +41,7 @@ const FormSchema = z.object({
 			'link gerado',
 			'em produção',
 			'produção entregue',
+			'aguardando producao',
 			'cancelado',
 		],
 		{
@@ -133,6 +134,14 @@ export function StatusOrderModal({
 												</FormControl>
 												<FormLabel className="font-normal">
 													Em produção
+												</FormLabel>
+											</FormItem>
+											<FormItem className="flex items-center space-x-3 space-y-0">
+												<FormControl>
+													<RadioGroupItem value="aguardando producao" />
+												</FormControl>
+												<FormLabel className="font-normal">
+													Aguardando produção
 												</FormLabel>
 											</FormItem>
 											<FormItem className="flex items-center space-x-3 space-y-0">
