@@ -40,12 +40,16 @@ export function OrderDetail({ data }: OrderDetailProps) {
 					</CustomCard>
 					<CustomCard title="Estilo da música">
 						<p>
-							<span className="font-semibold text-sm">Estilo:</span>:{' '}
+							<span className="font-semibold text-sm">Estilo</span>:{' '}
 							{data.music_style as string}
 						</p>
 						<p>
-							<span className="font-semibold text-sm">Voz:</span>:{' '}
-							{data.voice as string}
+							<span className="font-semibold text-sm">Voz</span>:{' '}
+							{!data.voice
+								? 'Não informado'
+								: data.voice === 'm'
+									? 'Masculina'
+									: 'Feminina'}
 						</p>
 					</CustomCard>
 
