@@ -219,7 +219,7 @@ export default function Home() {
 								className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105 inline-flex items-center gap-3"
 							>
 								<Image src={whatsapp} alt="WhatsApp" width={28} height={28} />
-								<span>Começar Agora</span>
+								<span>Fale conosco!</span>
 							</button>
 						)}
 					</div>
