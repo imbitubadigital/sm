@@ -177,8 +177,9 @@ export default function Home() {
 							<span className="font-bold text-2xl">
 								R$ {process.env.NEXT_PUBLIC_PRICE}
 							</span>
-							, você pode transformar um aniversário, uma conquista, uma
-							declaração de amor, uma reconciliação, ou qualquer ocasião
+							, você pode transformar um aniversário, uma conquista,
+							<br />
+							uma declaração de amor, uma reconciliação, ou qualquer ocasião
 							especial em um momento inesquecível.
 						</p>
 						<p className="text-lg text-white/80 mb-6">
