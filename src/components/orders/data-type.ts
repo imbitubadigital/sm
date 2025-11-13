@@ -5,6 +5,7 @@ export const STATUS: Record<string, string> = {
 	'pagamento confirmado': 'Pagamento confirmado',
 	'em produção': 'Em produção',
 	'produção entregue': 'Produção entregue',
+	'produção entregue manualmente': 'Produção entregue manualmente',
 	'link gerado': 'Link de pagamento gerado',
 	cancelado: 'Cancelado',
 }
@@ -18,6 +19,7 @@ export const BADGE = {
 	'link gerado': 'link',
 	cancelado: 'destructive',
 	'produção entregue': 'success',
+	'produção entregue manualmente': 'success',
 } as Record<
 	string,
 	| 'waiting'

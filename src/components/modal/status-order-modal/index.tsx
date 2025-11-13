@@ -154,6 +154,14 @@ export function StatusOrderModal({
 											</FormItem>
 											<FormItem className="flex items-center space-x-3 space-y-0">
 												<FormControl>
+													<RadioGroupItem value="produção entregue manualmente" />
+												</FormControl>
+												<FormLabel className="font-normal">
+													Produção entregue manualmente
+												</FormLabel>
+											</FormItem>
+											<FormItem className="flex items-center space-x-3 space-y-0">
+												<FormControl>
 													<RadioGroupItem value="cancelado" />
 												</FormControl>
 												<FormLabel className="font-normal">Cancelado</FormLabel>
