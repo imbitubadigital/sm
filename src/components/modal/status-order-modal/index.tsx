@@ -41,6 +41,7 @@ const FormSchema = z.object({
 			'link gerado',
 			'em produção',
 			'produção entregue',
+			'produção entregue manualmente',
 			'aguardando producao',
 			'cancelado',
 		],
