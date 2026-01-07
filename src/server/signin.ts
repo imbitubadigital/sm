@@ -1,6 +1,6 @@
 'use server'
 import type { SignInProps } from '@/@types/login'
-import { TOKEN_KEY } from '@/middleware'
+import { TOKEN_KEY } from '@/proxy'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 export async function singIn({ email, password }: SignInProps) {

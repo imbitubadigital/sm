@@ -11,7 +11,7 @@ const publicRoutes = [
 const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = '/'
 export const TOKEN_KEY = 'token_sm'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
 	const path = request.nextUrl.pathname
 
 	const publicRoute = publicRoutes.find((route) => route.path === path)
