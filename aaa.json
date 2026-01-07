@@ -43,7 +43,8 @@
       "date_time": "2025-11-10T08:34:04.494Z",
       "sender": "554896519151@s.whatsapp.net",
       "server_url": "https://smevolution.surpresamusical.com.br",
-      "apikey": "9C6C427AC5AD-4448-BB47-A4D60EFF9CC0"
+      "apikey": "9C6C427AC5AD-4448-BB47-A4D60EFF9CC0",
+      "aaa": "aaa"
     },
 
     "webhookUrl": "https://smstack-n8n-webhook.80swjs.easypanel.host/webhook/sm",
