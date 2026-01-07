@@ -1,11 +1,8 @@
 'use server'
 import type { SignInProps } from '@/@types/login'
-
 import { TOKEN_KEY } from '@/middleware'
-
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-
 export async function singIn({ email, password }: SignInProps) {
 	const cookiesData = await cookies()
 	cookiesData.set(TOKEN_KEY, 'token')

@@ -177,7 +177,10 @@ export default function Home() {
 							<span className="font-bold text-2xl">
 								R$ {process.env.NEXT_PUBLIC_PRICE}
 							</span>
-							, você pode transformar um aniversário em um momento inesquecível.
+							, você pode transformar um aniversário, uma conquista,
+							<br />
+							uma declaração de amor, uma reconciliação, ou qualquer ocasião
+							especial em um momento inesquecível.
 						</p>
 						<p className="text-lg text-white/80 mb-6">
 							Uma música personalizada é um presente único e especial que será
@@ -216,7 +219,7 @@ export default function Home() {
 								className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105 inline-flex items-center gap-3"
 							>
 								<Image src={whatsapp} alt="WhatsApp" width={28} height={28} />
-								<span>Começar Agora</span>
+								<span>Fale conosco!</span>
 							</button>
 						)}
 					</div>

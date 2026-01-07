@@ -1,0 +1,52 @@
+[
+  {
+    "headers": {
+      "host": "smstack-n8n-webhook.80swjs.easypanel.host",
+      "user-agent": "axios/1.12.2",
+      "content-length": "719",
+      "accept": "application/json, text/plain, */*",
+      "accept-encoding": "gzip, compress, deflate, br",
+      "content-type": "application/json",
+      "x-forwarded-for": "172.18.0.1",
+      "x-forwarded-host": "smstack-n8n-webhook.80swjs.easypanel.host",
+      "x-forwarded-port": "443",
+      "x-forwarded-proto": "https",
+      "x-forwarded-server": "78f99a67ac72",
+      "x-real-ip": "172.18.0.1"
+    },
+    "params": {},
+    "query": {},
+
+    "body": {
+      "event": "messages.upsert",
+      "instance": "sm",
+      "data": {
+        "key": {
+          "remoteJid": "553484078664@s.whatsapp.net",
+          "remoteJidAlt": "165296312733880@lid",
+          "fromMe": true,
+          "id": "3EB09A638489917F62EC19",
+          "participant": "",
+          "addressingMode": "pn"
+        },
+        "pushName": "Surpresa Musical",
+        "status": "SERVER_ACK",
+        "message": {
+          "conversation": "pela para falar com o suporte"
+        },
+        "messageType": "conversation",
+        "messageTimestamp": 1762774444,
+        "instanceId": "95a739a2-bf1b-4629-b3ca-ab646abb370f",
+        "source": "web"
+      },
+      "destination": "https://smstack-n8n-webhook.80swjs.easypanel.host/webhook/sm",
+      "date_time": "2025-11-10T08:34:04.494Z",
+      "sender": "554896519151@s.whatsapp.net",
+      "server_url": "https://smevolution.surpresamusical.com.br",
+      "apikey": "9C6C427AC5AD-4448-BB47-A4D60EFF9CC0"
+    },
+
+    "webhookUrl": "https://smstack-n8n-webhook.80swjs.easypanel.host/webhook/sm",
+    "executionMode": "production"
+  }
+]

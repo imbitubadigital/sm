@@ -5,7 +5,6 @@ import type { FormFirstStepOrder } from '@/components/modal/order-form-first-ste
 import type { FormSecondStepOrder } from '@/components/modal/order-form-second-step-modal'
 import type { StatusOrder } from '@/components/modal/status-order-modal'
 import { db } from '@/lib/prisma'
-
 import type { Prisma } from '@prisma/client'
 
 export async function getAllOrders({ search, limit, page }: SearchPaginate) {
@@ -108,6 +107,12 @@ export async function getOrder(id: number) {
 	const order = await db.order_sm.findUnique({
 		where: { id },
 	})
+	console.log(order)
 
 	return order
+}
+export async function removeOrder(id: number) {
+	await db.order_sm.delete({
+		where: { id },
+	})
 }
